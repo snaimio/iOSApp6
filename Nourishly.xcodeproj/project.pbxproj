@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		1934CF2C3009120900FA83EF /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 1934CF2B3009120900FA83EF /* FirebaseAuth */; };
+		1934CF2E3009120900FA83EF /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 1934CF2D3009120900FA83EF /* FirebaseFirestore */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		1934CF0F3009090700FA83EF /* Nourishly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nourishly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +28,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1934CF2C3009120900FA83EF /* FirebaseAuth in Frameworks */,
+				1934CF2E3009120900FA83EF /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +72,8 @@
 			);
 			name = Nourishly;
 			packageProductDependencies = (
+				1934CF2B3009120900FA83EF /* FirebaseAuth */,
+				1934CF2D3009120900FA83EF /* FirebaseFirestore */,
 			);
 			productName = Nourishly;
 			productReference = 1934CF0F3009090700FA83EF /* Nourishly.app */;
@@ -94,6 +103,9 @@
 			);
 			mainGroup = 1934CF063009090700FA83EF;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				1934CF2A3009120900FA83EF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 1934CF103009090700FA83EF /* Products */;
 			projectDirPath = "";
@@ -256,6 +268,9 @@
 				DEVELOPMENT_TEAM = BP49ZMU6R3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Nourishly;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Nourishly needs camera access to take photos of your meals";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Nourishly needs access to save photos of your meals";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -288,6 +303,9 @@
 				DEVELOPMENT_TEAM = BP49ZMU6R3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Nourishly;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Nourishly needs camera access to take photos of your meals";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Nourishly needs access to save photos of your meals";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -332,6 +350,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1934CF2A3009120900FA83EF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.16.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1934CF2B3009120900FA83EF /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1934CF2A3009120900FA83EF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		1934CF2D3009120900FA83EF /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1934CF2A3009120900FA83EF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1934CF073009090700FA83EF /* Project object */;
 }
