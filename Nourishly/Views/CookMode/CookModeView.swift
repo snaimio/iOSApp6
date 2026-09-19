@@ -120,7 +120,8 @@ struct CookModeView: View {
                         .padding(.horizontal)
                         
                         // Step instruction text
-                        Text(meal.instructionSteps[currentStep])
+                        let stepText = currentStep < meal.instructionSteps.count ? meal.instructionSteps[currentStep] : ""
+                        Text(stepText)
                             .font(.title3)
                             .fontWeight(.medium)
                             .multilineTextAlignment(.leading)
@@ -132,7 +133,8 @@ struct CookModeView: View {
                     .padding(.horizontal)
                     
                     // MARK: - Timer Section
-                    if containsTime(in: meal.instructionSteps[currentStep]) {
+                    let currentInstruction = currentStep < meal.instructionSteps.count ? meal.instructionSteps[currentStep] : ""
+                    if containsTime(in: currentInstruction) {
                         VStack(spacing: 12) {
                             Divider()
                                 .padding(.horizontal)
@@ -174,7 +176,7 @@ struct CookModeView: View {
                             } else {
                                 // Start timer button
                                 Button {
-                                    extractTimeAndStartTimer(from: meal.instructionSteps[currentStep])
+                                    extractTimeAndStartTimer(from: currentInstruction)
                                 } label: {
                                     HStack {
                                         Image(systemName: "play.circle.fill")

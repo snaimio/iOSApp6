@@ -103,25 +103,11 @@ struct FavoritesView: View {
                 .font(.title2)
                 .fontWeight(.medium)
             
-            Text("Start saving your favorite recipes")
+            Text("Explore recipes and tap the heart icon to save your favorites")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
-            
-            NavigationLink {
-                DiscoverView()
-                    .environmentObject(mealViewModel)
-                    .environmentObject(authViewModel)
-            } label: {
-                Text("Discover Recipes")
-                    .fontWeight(.semibold)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.green)
-                    .foregroundColor(.white)
-                    .cornerRadius(12)
-            }
-            .padding(.horizontal, 40)
+                .padding(.horizontal, 32)
         }
         .padding()
     }

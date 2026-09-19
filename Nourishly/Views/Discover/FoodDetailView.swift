@@ -211,8 +211,11 @@ struct FoodDetailView: View {
                     Divider()
                     
                     // MARK: - YouTube Video Link
-                    if let youtubeURL = displayMeal.strYoutube,
-                       let url = URL(string: youtubeURL) {
+                    if let youtubeURL = displayMeal.strYoutube?.trimmingCharacters(in: .whitespacesAndNewlines),
+                       !youtubeURL.isEmpty,
+                       let url = URL(string: youtubeURL),
+                       let scheme = url.scheme?.lowercased(),
+                       ["http", "https"].contains(scheme) {
                         Link(destination: url) {
                             Label("Watch on YouTube 📺", systemImage: "play.rectangle.fill")
                                 .frame(maxWidth: .infinity)

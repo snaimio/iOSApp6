@@ -14,6 +14,9 @@ struct ProfileView: View {
     /// Shared authentication view model from parent
     @EnvironmentObject var authViewModel: AuthViewModel
     
+    /// Shared meal view model from parent
+    @EnvironmentObject var mealViewModel: MealViewModel
+    
     /// State for showing login prompt sheet
     @State private var showLoginPrompt = false
     
@@ -24,6 +27,9 @@ struct ProfileView: View {
     
     /// Trigger for refreshing the view
     @State private var refreshTrigger = UUID()
+    
+    /// Notification token for observer cleanup
+    @State private var updateObserver: (any NSObjectProtocol)?
     
     // MARK: - Body
     
@@ -170,6 +176,7 @@ struct ProfileView: View {
             .sheet(isPresented: $showLoginPrompt) {
                 AuthChoiceView()
                     .environmentObject(authViewModel)
+                    .environmentObject(mealViewModel)
             }
         }
     }
@@ -178,7 +185,8 @@ struct ProfileView: View {
     
     /// Listen for cookbook updates to refresh stats
     func setupNotificationObserver() {
-        NotificationCenter.default.addObserver(
+        removeNotificationObserver()
+        updateObserver = NotificationCenter.default.addObserver(
             forName: NSNotification.Name("CookbookUpdated"),
             object: nil,
             queue: .main
@@ -191,7 +199,10 @@ struct ProfileView: View {
     
     /// Remove notification observer
     func removeNotificationObserver() {
-        NotificationCenter.default.removeObserver(self)
+        if let observer = updateObserver {
+            NotificationCenter.default.removeObserver(observer)
+            updateObserver = nil
+        }
     }
     
     // MARK: - Stats Helper Functions

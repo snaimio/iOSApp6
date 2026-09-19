@@ -130,10 +130,23 @@ struct Meal: Codable, Identifiable, Hashable {
     
     /// Returns instructions split into individual steps
     var instructionSteps: [String] {
-        guard let instructions = strInstructions else { return [] }
-        return instructions.components(separatedBy: ". ")
-            .filter { !$0.isEmpty }
+        guard let instructions = strInstructions?.trimmingCharacters(in: .whitespacesAndNewlines), !instructions.isEmpty else {
+            return []
+        }
+        
+        // If instructions contain distinct newline-separated steps/paragraphs, use them
+        let newlineSteps = instructions.components(separatedBy: CharacterSet.newlines)
             .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter { !$0.isEmpty && $0.count > 3 }
+        
+        if newlineSteps.count > 1 {
+            return newlineSteps
+        }
+        
+        // Otherwise split by sentence ends
+        return instructions.components(separatedBy: ". ")
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter { !$0.isEmpty }
     }
 }
 

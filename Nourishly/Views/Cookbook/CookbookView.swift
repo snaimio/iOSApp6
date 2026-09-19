@@ -49,7 +49,13 @@ struct CookbookView: View {
     @State private var showError = false
     
     /// Notification observer for cookbook updates
-    @State private var updateObserver: Any?
+    @State private var updateObserver: (any NSObjectProtocol)?
+    
+    /// Shared meal data view model from parent
+    @EnvironmentObject var mealViewModel: MealViewModel
+    
+    /// Shared authentication view model from parent
+    @EnvironmentObject var authViewModel: AuthViewModel
     
     // MARK: - Body
     
@@ -123,6 +129,8 @@ struct CookbookView: View {
                 if let meal = selectedMealDetails {
                     NavigationStack {
                         CookbookDetailView(meal: meal)
+                            .environmentObject(mealViewModel)
+                            .environmentObject(authViewModel)
                     }
                 }
             }
@@ -156,19 +164,6 @@ struct CookbookView: View {
                 .font(.subheadline)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
-            
-            NavigationLink {
-                DiscoverView()
-            } label: {
-                Text("Discover Recipes")
-                    .fontWeight(.semibold)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.green)
-                    .foregroundColor(.white)
-                    .cornerRadius(12)
-            }
-            .padding(.horizontal, 40)
         }
         .padding()
     }
@@ -279,6 +274,7 @@ struct CookbookView: View {
     
     /// Setup notification observer for cookbook updates
     func setupNotificationObserver() {
+        removeNotificationObserver()
         updateObserver = NotificationCenter.default.addObserver(
             forName: NSNotification.Name("CookbookUpdated"),
             object: nil,
@@ -294,6 +290,7 @@ struct CookbookView: View {
     func removeNotificationObserver() {
         if let observer = updateObserver {
             NotificationCenter.default.removeObserver(observer)
+            updateObserver = nil
         }
     }
     

@@ -11,6 +11,7 @@ import SwiftUI
 import Combine
 import FirebaseAuth
 
+@MainActor
 class AuthViewModel: ObservableObject {
     // MARK: - Published Properties
     

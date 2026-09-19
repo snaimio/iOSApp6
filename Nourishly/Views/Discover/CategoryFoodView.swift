@@ -134,13 +134,13 @@ struct CategoryFoodView: View {
                     // Pull to refresh
                     await mealViewModel.loadMeals(for: category.strCategory)
                 }
-                .searchable(
-                    text: $searchText,
-                    placement: .navigationBarDrawer(displayMode: .always),
-                    prompt: "Search in \(category.strCategory)"
-                )
             }
         }
+        .searchable(
+            text: $searchText,
+            placement: .navigationBarDrawer(displayMode: .automatic),
+            prompt: "Search in \(category.strCategory)"
+        )
         .navigationTitle(category.strCategory)
         .navigationBarTitleDisplayMode(.inline)
         .task {

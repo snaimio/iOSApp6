@@ -48,6 +48,7 @@ struct MainTabView: View {
             // MARK: - Tab 3: Cookbook
             /// Track cooked recipes with ratings and notes
             CookbookView()
+                .environmentObject(mealViewModel)
                 .environmentObject(authViewModel)
                 .tabItem {
                     Label("Cookbook", systemImage: "book.fill")
@@ -57,6 +58,7 @@ struct MainTabView: View {
             // MARK: - Tab 4: Profile
             /// User information, settings, and stats
             ProfileView()
+                .environmentObject(mealViewModel)
                 .environmentObject(authViewModel)
                 .tabItem {
                     Label("Profile", systemImage: "person.fill")
