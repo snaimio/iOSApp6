@@ -16,6 +16,9 @@ struct LoginView: View {
     /// Shared authentication view model from parent
     @EnvironmentObject var authViewModel: AuthViewModel
     
+    /// Dismiss environment to go back
+    @Environment(\.dismiss) var dismiss
+    
     /// State for navigation to register screen
     @State private var showRegister = false
     
@@ -25,101 +28,114 @@ struct LoginView: View {
     // MARK: - Body
     
     var body: some View {
-        NavigationStack {
-            VStack(spacing: 30) {
-                // MARK: - App Logo
-                VStack(spacing: 10) {
-                    Image(systemName: "leaf.fill")
-                        .font(.system(size: 60))
-                        .foregroundColor(.green)
-                    
-                    Text("Nourishly")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .foregroundColor(.green)
-                    
-                    Text("Eat well. Live well.")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                }
-                .padding(.top, 50)
+        VStack(spacing: 30) {
+            // MARK: - App Logo
+            VStack(spacing: 10) {
+                Image(systemName: "leaf.fill")
+                    .font(.system(size: 60))
+                    .foregroundColor(.green)
                 
-                // MARK: - Login Form
-                VStack(spacing: 20) {
-                    // Email field
-                    TextField("Email", text: $authViewModel.email)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled()
-                        .keyboardType(.emailAddress)
-                    
-                    // Password field
-                    SecureField("Password", text: $authViewModel.password)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                    
-                    // Forgot Password Button
-                    HStack {
-                        Spacer()
-                        Button {
-                            showForgotPassword = true
-                        } label: {
-                            Text("Forgot Password?")
-                                .font(.caption)
-                                .foregroundColor(.green)
-                        }
-                    }
-                    
-                    // Login Button
-                    Button {
-                        authViewModel.login()
-                    } label: {
-                        if authViewModel.isLoading {
-                            ProgressView()
-                                .tint(.white)
-                        } else {
-                            Text("Login")
-                                .fontWeight(.semibold)
-                        }
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.green)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-                    .disabled(authViewModel.isLoading)
-                }
-                .padding(.horizontal, 30)
+                Text("Nourishly")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .foregroundColor(.green)
                 
-                // MARK: - Register Navigation
+                Text("Eat well. Live well.")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            }
+            .padding(.top, 40)
+            
+            // MARK: - Login Form
+            VStack(spacing: 20) {
+                // Email field
+                TextField("Email", text: $authViewModel.email)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .textInputAutocapitalization(.never)
+                    .autocorrectionDisabled()
+                    .keyboardType(.emailAddress)
+                
+                // Password field
+                SecureField("Password", text: $authViewModel.password)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                
+                // Forgot Password Button
                 HStack {
-                    Text("Don't have an account?")
-                        .foregroundColor(.secondary)
-                    
+                    Spacer()
                     Button {
-                        showRegister = true
+                        showForgotPassword = true
                     } label: {
-                        Text("Sign Up")
-                            .fontWeight(.semibold)
+                        Text("Forgot Password?")
+                            .font(.caption)
                             .foregroundColor(.green)
                     }
                 }
                 
-                Spacer()
-            }
-            .navigationDestination(isPresented: $showRegister) {
-                RegisterView()
-                    .environmentObject(authViewModel)
-            }
-            .alert("Login Error", isPresented: $authViewModel.showAlert) {
-                Button("OK") {
-                    authViewModel.errorMessage = ""
+                // Login Button
+                Button {
+                    authViewModel.login()
+                } label: {
+                    if authViewModel.isLoading {
+                        ProgressView()
+                            .tint(.white)
+                    } else {
+                        Text("Login")
+                            .fontWeight(.semibold)
+                    }
                 }
-            } message: {
-                Text(authViewModel.errorMessage)
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(Color.green)
+                .foregroundColor(.white)
+                .cornerRadius(10)
+                .disabled(authViewModel.isLoading)
             }
-            .sheet(isPresented: $showForgotPassword) {
-                ForgotPasswordView()
+            .padding(.horizontal, 30)
+            
+            // MARK: - Register Navigation
+            HStack {
+                Text("Don't have an account?")
+                    .foregroundColor(.secondary)
+                
+                Button {
+                    showRegister = true
+                } label: {
+                    Text("Sign Up")
+                        .fontWeight(.semibold)
+                        .foregroundColor(.green)
+                }
             }
+            
+            Spacer()
+        }
+        .navigationTitle("Sign In")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    HStack(spacing: 4) {
+                        Image(systemName: "chevron.left")
+                        Text("Back")
+                    }
+                    .foregroundColor(.green)
+                }
+            }
+        }
+        .navigationDestination(isPresented: $showRegister) {
+            RegisterView()
+                .environmentObject(authViewModel)
+        }
+        .alert("Login Error", isPresented: $authViewModel.showAlert) {
+            Button("OK") {
+                authViewModel.errorMessage = ""
+            }
+        } message: {
+            Text(authViewModel.errorMessage)
+        }
+        .sheet(isPresented: $showForgotPassword) {
+            ForgotPasswordView()
         }
     }
 }

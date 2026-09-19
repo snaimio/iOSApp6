@@ -80,7 +80,21 @@ struct RegisterView: View {
             
             Spacer()
         }
-        .navigationBarBackButtonHidden(true)
+        .navigationTitle("Create Account")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    HStack(spacing: 4) {
+                        Image(systemName: "chevron.left")
+                        Text("Back")
+                    }
+                    .foregroundColor(.green)
+                }
+            }
+        }
         .alert("Registration Error", isPresented: $authViewModel.showAlert) {
             Button("OK") {
                 authViewModel.errorMessage = ""
